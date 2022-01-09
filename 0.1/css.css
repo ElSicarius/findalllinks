@@ -1,0 +1,95 @@
+.uncomment_button {
+			box-shadow: 0px 10px 14px -7px #276873;
+			background:linear-gradient(to bottom, #599bb3 5%, #408c99 100%);
+			background-color:#599bb3;
+			border-radius:8px;
+			display:inline-block;
+			cursor:pointer;
+			color:#ffffff;
+			font-family:Arial;
+			font-size:20px;
+			font-weight:bold;
+			padding:13px 32px;
+			text-decoration:none;
+			text-shadow:0px 1px 0px #3d768a;
+		}
+.uncomment_button:hover {
+	background:linear-gradient(to bottom, #408c99 5%, #599bb3 100%);
+	background-color:#408c99;
+}
+.uncomment_button:active {
+	position:relative;
+	top:1px;
+}
+
+.display_button {
+	box-shadow: 0px 10px 14px -7px #276873;
+	background:linear-gradient(to bottom, #ab8383 5%, #a67695 100%);
+	background-color:#ab8383;
+	border-radius:8px;
+	display:inline-block;
+	cursor:pointer;
+	color:#ffffff;
+	font-family:Arial;
+	font-size:20px;
+	font-weight:bold;
+	padding:13px 32px;
+	text-decoration:none;
+	text-shadow:0px 1px 0px #3d768a;
+}
+.display_button:hover {
+	background:linear-gradient(to bottom, #a67695 5%, #ab8383 100%);
+	background-color:#a67695;
+}
+.display_button:active {
+	position:relative;
+	top:1px;
+}
+
+.class_unhide {
+	box-shadow: 0px 10px 14px -7px #3dc21b;
+	background:linear-gradient(to bottom, #337044 5%, #538538 100%);
+	background-color:#337044;
+	border-radius:8px;
+	display:inline-block;
+	cursor:pointer;
+	color:#ffffff;
+	font-family:Arial;
+	font-size:20px;
+	font-weight:bold;
+	padding:13px 32px;
+	text-decoration:none;
+	text-shadow:0px 1px 0px #2f6627;
+}
+.class_unhide:hover {
+	background:linear-gradient(to bottom, #538538 5%, #337044 100%);
+	background-color:#538538;
+}
+.class_unhide:active {
+	position:relative;
+	top:1px;
+}
+
+.try_all {
+	box-shadow: 0px 10px 14px -7px #1b24c2;
+	background:linear-gradient(to bottom, #36326e 5%, #394c85 100%);
+	background-color:#36326e;
+	border-radius:8px;
+	display:inline-block;
+	cursor:pointer;
+	color:#ffffff;
+	font-family:Arial;
+	font-size:20px;
+	font-weight:bold;
+	padding:13px 32px;
+	text-decoration:none;
+	text-shadow:0px 1px 0px #2f6627;
+}
+.try_all:hover {
+	background:linear-gradient(to bottom, #394c85 5%, #36326e 100%);
+	background-color:#394c85;
+}
+.try_all:active {
+	position:relative;
+	top:1px;
+}

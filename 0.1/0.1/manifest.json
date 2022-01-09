@@ -1,0 +1,35 @@
+{
+   "browser_action": {
+      "default_popup": "index.html",
+      "default_icon": {
+        "16": "images/icon_16.png",
+        "32": "images/icon_32.png",
+        "48": "images/icon_48.png",
+        "128": "images/icon_128.png"
+      }
+    },
+
+   "content_scripts": [ {
+      "js": [ "jquery.min.js", "content.js" ],
+      "matches": [ "<all_urls>" ]
+   } ],
+   "description": "Un comments hidden stuff in the html",
+   "icons": {
+      "128": "icon_128.png",
+      "16": "icon_16.png",
+      "48": "icon_48.png"
+   },
+   "background": {
+      "scripts": ["background.js"],
+      "persistent": false
+    },
+   "manifest_version": 2,
+   "name": "UncommentEr",
+   "permissions": [ "storage","activeTab","declarativeContent" ],
+   "version": "0.1",
+   "author": "Sicarius",
+   "browser_action": {
+      "default_title": "UncommentEr",
+      "default_popup": "index.html"
+    }
+}
