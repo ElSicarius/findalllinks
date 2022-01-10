@@ -46,7 +46,7 @@
 	top:1px;
 }
 
-.class_unhide {
+.class_jslinkfinder {
 	box-shadow: 0px 10px 14px -7px #3dc21b;
 	background:linear-gradient(to bottom, #337044 5%, #538538 100%);
 	background-color:#337044;
@@ -61,11 +61,11 @@
 	text-decoration:none;
 	text-shadow:0px 1px 0px #2f6627;
 }
-.class_unhide:hover {
+.class_jslinkfinder:hover {
 	background:linear-gradient(to bottom, #538538 5%, #337044 100%);
 	background-color:#538538;
 }
-.class_unhide:active {
+.class_jslinkfinder:active {
 	position:relative;
 	top:1px;
 }
