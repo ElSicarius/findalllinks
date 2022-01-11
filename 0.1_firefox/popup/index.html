@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<!-- Font Awesome -->
+	<link href="all.min.css" rel="stylesheet" />
+	<!-- Google Fonts -->
+	<link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" rel="stylesheet" />
+	<!-- MDB Style kit -->
+	<link href="mdb.min.css" rel="stylesheet" />
+	<!-- MDB Scripts -->
+	<script type="text/javascript" src="mdb.min.js"></script>
+
+</head>
+
+<body>
+	<div class="container">
+		<!-- Content here -->
+		<div class="row justify-content-center">
+			<div class="col-xl-5 col-md-6">
+				<form class="rounded p-2">
+
+          <div class="text-center p-1">
+						<button type="button" class="btn btn-primary" id="find_links"  style="width: 100%;" data-mdb-ripple-color=" dark">
+							Find urls
+						</button>
+					</div>
+
+					<div class="text-center p-1">
+						<button type="button" class="btn btn-primary" id="find_paths" style="width: 100%;" data-mdb-ripple-color=" dark">
+							Find urls + paths
+						</button>
+					</div>
+
+          <div class="text-center p-1">
+						<button type="button" class="btn btn-info" id="jslinkfinder" style="width: 100%;" data-mdb-ripple-color=" dark">
+							Find urls like jslinkfinder
+						</button>
+					</div>
+
+
+					<div class="form-check">
+						<input class="form-check-input" name="flex" type="radio" id="windowRb" checked="true" />
+						<label class="form-check-label" for="windowRb">Open result in a new window</label>
+					</div>
+						<input class="form-check-input" name="flex" type="radio" id="clipboardRb" />
+						<label class="form-check-label" for="clipboardRb">Paste result in the clipboard</label>
+					</div>
+					
+				
+				</form>
+			</div>
+		</div>
+
+		<script src="trouvereur.js"></script>
+</body>
+
+</html>
