@@ -1,0 +1,29 @@
+{
+   "browser_action": {
+      "default_popup": "popup/index.html",
+      "default_icon": {
+        "16": "images/icon_16.png",
+        "32": "images/icon_32.png",
+        "48": "images/icon_48.png",
+        "128": "images/icon_128.png"
+      }
+    },
+   "icons": {
+      "128": "images/icon_128.png",
+      "16": "images/icon_16.png",
+      "48": "images/icon_48.png"
+   },
+   "content_scripts": [ {
+      "js": ["content_scripts/content.js" ],
+      "matches": [ "<all_urls>" ]
+   } ],
+   "description": "Find paths in the html/js",
+   "background": {
+      "scripts": ["background/background.js"]
+    },
+   "manifest_version": 2,
+   "name": "Trouvereur",
+   "permissions": [ "storage","activeTab","clipboardWrite" ],
+   "version": "0.2",
+   "author": "Sicarius"
+}
