@@ -1,7 +1,33 @@
-var get_radio = function(){
-    console.log(document.documentElement.innerHTML);
-    return document.querySelector('input[name="output"]:checked').value;
+var mode = "window";
+
+const loadConfig = () => {
+	chrome.storage.local.get("FALOutput",(res) => {
+        mode = res["FALOutput"] ?? "window";
+        console.log(mode);
+        document.getElementById("clipboardRb").checked = (res["FALOutput"] == "clip")  ?? false;
+	});
 }
+
+const updateConfig = (fALOutputMode) => {
+	chrome.storage.local.set({
+		FALOutput: fALOutputMode,
+	});
+    loadConfig();
+}
+
+loadConfig();
+
+document.getElementById("clipboardRb").addEventListener('change', function () {
+	if(this.checked) updateConfig("clip");
+});
+document.getElementById("windowRb").addEventListener('change', function () {
+	if(this.checked) updateConfig("window");
+});
+
+const get_radio = () => {
+    return mode;
+}
+
 window.addEventListener('load', function() {
 	document.querySelector('#find_links').addEventListener('click', function() {
 		chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {

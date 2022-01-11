@@ -1,29 +1,30 @@
+var mode = "window";
+
 const loadConfig = () => {
 	browser.storage.local.get().then((res) => {
-		document.getElementById("clipboardRb").checked = res.clipboard ?? false;
+        mode = res["FALOutput"] ?? "window";
+        document.getElementById("clipboardRb").checked = (res["FALOutput"] == "clip")  ?? false;
 	});
 }
 
-const updateConfig = (clipboardState) => {
-	browser.storage.local.set(
-	{
-		clipboard: clipboardState,
+const updateConfig = (fALOutputMode) => {
+	browser.storage.local.set({
+		FALOutput: fALOutputMode,
 	});
+    loadConfig();
 }
 
 loadConfig();
 
 document.getElementById("clipboardRb").addEventListener('change', function () {
-	if(this.checked) updateConfig(true);
+	if(this.checked) updateConfig("clip");
 });
 document.getElementById("windowRb").addEventListener('change', function () {
-	if(this.checked)updateConfig(false);
+	if(this.checked) updateConfig("window");
 });
 const get_radio = () => {
-    console.log(document.documentElement.innerHTML);
-    return document.getElementById("windowRb").checked;
+    return mode;
 }
-
 
 document.addEventListener("click", async (e) => {
 
@@ -56,4 +57,3 @@ document.addEventListener("click", async (e) => {
 			break;
 	}
 });
-

@@ -3,27 +3,15 @@ const bad_domains = [
 
 ]
 
-var find_links = function(stuff) {
-
-    const regex_links = /https?:[\\\/]*[\w\_\.\:\d\-]+([\\\/]*)([\\\/\w\_\-\d]*)(\?([^&'},)"])([^=]+=[^&'},)"]+)?)?/gmi;
-    console.log("Regex link");
-    return Array.from(new Set(stuff.match(regex_links)));
-
-}
-
-var find_paths = function(stuff) {
-
-    const relative = /(?:"|')(https?:[\\\/]+)?(([\\\/\?]+)([\.\w\d\_\-\:]+([\\\/]+)?)+)|(([\.\w\d\_\-\:]+([\\\/]+))+)[^\?"'\s]+(\?([^=,]+([=,\s]+)?)?)?(?:"|')/gmi;
-
-    console.log("Regex path or link");
-    var x = Array.from(new Set(stuff.match(relative)));
+var sanitize = (x) => {
     const regex_garbage = /(\\(x[\da-f]{2}|u[\da-f]{4}))/gmi;
     const regex_repetitive = /(.)\1{4,}/gmi;
     var end_list = [];
     for (var i = 0; i<x.length; i++){
         if (!x[i].match(regex_garbage)){
             if (!x[i].match(regex_repetitive)){
-                var y = x[i].replace("\"","").replace("'","");
+                var y = x[i].replace('"',"").replace("'","");
+                y = y.replace('"',"").replace("'","");
                 end_list.push(y);
             } else {
                 console.log("Matched repetitive", x[i]);
@@ -33,6 +21,23 @@ var find_paths = function(stuff) {
         }
     }
     return end_list;
+}
+
+var find_links = function(stuff) {
+
+    const regex_links = /https?:[\\\/]*[\w\_\.\:\d\-]+([\\\/]*)([\\\/\w\_\-\d]*)(\?([^&'},)"])([^=]+=[^&'},)"]+)?)?/gmi;
+    console.log("Regex link");
+    var x = Array.from(new Set(stuff.match(regex_links)));
+    return sanitize(x);
+
+}
+
+var find_paths = function(stuff) {
+
+    const relative = /(?:"|')(https?:[\\\/]+)?(([\\\/\?]+)([\.\w\d\_\-\:]+([\\\/]+)?)+)|(([\.\w\d\_\-\:]+([\\\/]+))+)[^\?"'\s]+(\?([^=,]+([=,\s]+)?)?)?(?:"|')/gmi;
+    console.log("Regex path or link");
+    var x = Array.from(new Set(stuff.match(relative)));
+    return sanitize(x);
 
 }
 
@@ -40,7 +45,8 @@ var find_jslinkfinder = function(stuff) {
 
     const regex_links = /(?:"|')(((?:[a-zA-Z]{1,10}:\/\/|\/\/)[^"'\/]{1,}\.[a-zA-Z]{2,}[^"']{0,})|((?:\/|\.\.\/|\.\/)[^"'><,;| *()(%%$^\/\\\[\]][^"'><,;|()]{1,})|([a-zA-Z0-9_\-\/]{1,}\/[a-zA-Z0-9_\-\/]{1,}\.(?:[a-zA-Z]{1,4}|action)(?:[\?|\/][^"|']{0,}|))|([a-zA-Z0-9_\-]{1,}\.(?:php|asp|aspx|jsp|json|action|html|js|txt|xml)(?:\?[^"|']{0,}|)))(?:"|')/gm
     console.log("Regex jslinkfinder");
-    return Array.from(new Set(stuff.match(regex_links)));
+    var x = Array.from(new Set(stuff.match(regex_links)));
+    return sanitize(x);
 }
 
 
@@ -88,7 +94,7 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
             text_window+=c[i]+"<br>";
         }
         win.document.body.innerHTML = text_window;
-    } else if (request.mode == "clipboard") {
+    } else if (request.mode == "clip") {
         console.log("Mode clipboard");
         for (var i =0; i<c.length; i++){
             text_window+=c[i]+"\n";
