@@ -10,6 +10,7 @@ var sanitize = (x) => {
         if (!x[i].match(regex_garbage)){
             if (!x[i].match(regex_repetitive)){
                 var y = x[i].replace("\"","").replace("'","");
+                y = y.replace('"',"").replace("'","");
                 end_list.push(y);
             } else {
                 console.log("Matched repetitive", x[i]);

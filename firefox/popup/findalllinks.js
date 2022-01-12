@@ -26,6 +26,17 @@ const get_radio = () => {
     return mode;
 }
 
+const inject_script = (tabId) => {
+    browser.tabs.executeScript(tabId,{ file: "/content_scripts/content.js", runAt: 'document_end' });
+}
+window.addEventListener('load', function() {
+
+    browser.tabs.query({active: true, currentWindow: true}, function(tabs) {
+        inject_script(tabs[0].id);
+    });
+
+});
+
 document.addEventListener("click", async (e) => {
 
 	switch (e.target.id) {

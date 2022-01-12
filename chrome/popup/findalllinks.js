@@ -28,23 +28,37 @@ const get_radio = () => {
     return mode;
 }
 
+const inject_script = (tabId) => {
+    chrome.tabs.executeScript(tabId,{ file: "/content_scripts/content.js", runAt: 'document_end' });
+}
+
 window.addEventListener('load', function() {
+
+    chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+        inject_script(tabs[0].id);
+    });
+    
 	document.querySelector('#find_links').addEventListener('click', function() {
 		chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+            //inject_script(tabs[0].id);
 			chrome.tabs.sendMessage(tabs[0].id, {command: "find_links", mode: get_radio()}, function(response) {
 				console.log("Call to function");
 			});
 		});
 	});
 	document.querySelector('#find_paths').addEventListener('click', function() {
+
 		chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+            //inject_script(tabs[0].id);
 			chrome.tabs.sendMessage(tabs[0].id, {command: "find_paths", mode: get_radio()}, function(response) {
 				console.log("Call to function");
 			});
 		});
 	});
     document.querySelector('#jslinkfinder').addEventListener('click', function() {
+
 		chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+            //inject_script(tabs[0].id);
 			chrome.tabs.sendMessage(tabs[0].id, {command: "jslinkfinder", mode: get_radio()}, function(response) {
 				console.log("Call to function");
 			});
