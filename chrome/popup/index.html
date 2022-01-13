@@ -3,6 +3,14 @@
 <html>
 
 <head>
+    <style type="text/css" >
+        body {
+          min-width: 350px; /* your desired width */
+          max-width: 100%;
+          position: relative;
+          vertical-align:middle;
+        }
+    </style>
 	<meta charset="utf-8">
 	<!-- Font Awesome -->
 	<link href="all.min.css" rel="stylesheet" />
@@ -29,8 +37,13 @@
 					</div>
 
 					<div class="text-center p-1">
-						<button type="button" class="btn btn-primary" id="find_paths" style="width: 100%;" data-mdb-ripple-color=" dark">
-							Find urls + paths
+						<button type="button" class="btn btn-primary" id="find_paths_v1" style="width: 100%;" data-mdb-ripple-color=" dark">
+							Find urls + paths Regex v1
+						</button>
+					</div>
+                    <div class="text-center p-1">
+						<button type="button" class="btn btn-primary" id="find_paths_v2" style="width: 100%;" data-mdb-ripple-color=" dark">
+							Find urls + paths Regex v2 (best one, might crash)
 						</button>
 					</div>
 

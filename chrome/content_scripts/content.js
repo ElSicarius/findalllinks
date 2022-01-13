@@ -32,10 +32,18 @@ var find_links = function(stuff) {
 
 }
 
-var find_paths = function(stuff) {
+var find_paths_v2 = function(stuff) {
+
+    const relative = /(?:"|')([\w]{2,10}:[\\\/]+[\w\d\_\-\.\:]+)?((([\\\/]+)([\.\w\d\_\-\:]+)((?![\.\w\d\_\-\:]+)[\\\/]+)?)+|(([\.\w\d\_\-\:]+)([\\\/]+)((?![\\\/]+)[\.\w\d\_\-\:]+)?)+)?(\?([\w\d\-\_{}()\[\]]+(\=([^&,\s]+(\&)?)?)?){0,})?(?:"|')/gmi;
+    console.log("Regex path or link v2");
+    var x = Array.from(new Set(stuff.match(relative)));
+    return sanitize(x);
+
+}
+var find_paths_v1 = function(stuff) {
 
     const relative = /(?:"|')(https?:[\\\/]+)?(([\\\/\?]+)([\.\w\d\_\-\:]+([\\\/]+)?)+)|(([\.\w\d\_\-\:]+([\\\/]+))+)[^\?"'\s]+(\?([^=,]+([=,\s]+)?)?)?(?:"|')/gmi;
-    console.log("Regex path or link");
+    console.log("Regex path or link v1");
     var x = Array.from(new Set(stuff.match(relative)));
     return sanitize(x);
 
@@ -78,10 +86,13 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
     if(request.command === "find_links"){
         c = find_links(stuff);
     }
-    if(request.command === "find_paths"){
-        c = find_paths(stuff);
+    else if(request.command === "find_paths_v1"){
+        c = find_paths_v1(stuff);
     }
-    if(request.command === "jslinkfinder"){
+    else if(request.command === "find_paths_v2"){
+        c = find_paths_v2(stuff);
+    }
+    else if(request.command === "jslinkfinder"){
         c = find_jslinkfinder(stuff);
     }
     console.log("Mode ",request);

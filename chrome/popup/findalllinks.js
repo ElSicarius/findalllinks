@@ -37,7 +37,7 @@ window.addEventListener('load', function() {
     chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
         inject_script(tabs[0].id);
     });
-    
+
 	document.querySelector('#find_links').addEventListener('click', function() {
 		chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
             //inject_script(tabs[0].id);
@@ -46,11 +46,20 @@ window.addEventListener('load', function() {
 			});
 		});
 	});
-	document.querySelector('#find_paths').addEventListener('click', function() {
+	document.querySelector('#find_paths_v1').addEventListener('click', function() {
 
 		chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
             //inject_script(tabs[0].id);
-			chrome.tabs.sendMessage(tabs[0].id, {command: "find_paths", mode: get_radio()}, function(response) {
+			chrome.tabs.sendMessage(tabs[0].id, {command: "find_paths_v1", mode: get_radio()}, function(response) {
+				console.log("Call to function");
+			});
+		});
+	});
+    document.querySelector('#find_paths_v2').addEventListener('click', function() {
+
+		chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+            //inject_script(tabs[0].id);
+			chrome.tabs.sendMessage(tabs[0].id, {command: "find_paths_v2", mode: get_radio()}, function(response) {
 				console.log("Call to function");
 			});
 		});
