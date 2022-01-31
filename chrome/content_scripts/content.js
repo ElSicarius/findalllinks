@@ -1,18 +1,37 @@
 
 const bad_domains = [
-
+    "googleapis.com",
+    "gstatic.com",
+    "google.com",
+    "g.co",
+    "jquery.com",
+    "googletagmanager.com",
+    "google-analytics.com",
+    "recaptcha.net",
+    "googleadservices.com",
+    "doubleclick.net",
+    "google.co.in",
+    "windows.net",
+    "onetrust.com",
+    "getbootstrap.com",
+    "ggpht.com",
+    "opensource.org",
+    "gnu.org",
+    "w3.org",
+    "angular.io",
+    "youtube.com"
 ]
 
 var sanitize = (x) => {
     const regex_garbage = /(\\(x[\da-f]{2}|u[\da-f]{4}))/gmi;
     const regex_repetitive = /(.)\1{4,}/gmi;
-    var end_list = [];
+    var filtered_list = [];
     for (var i = 0; i<x.length; i++){
         if (!x[i].match(regex_garbage)){
             if (!x[i].match(regex_repetitive)){
                 var y = x[i].replace('"',"").replace("'","");
                 y = y.replace('"',"").replace("'","");
-                end_list.push(y);
+                filtered_list.push(y);
             } else {
                 console.log("Matched repetitive", x[i]);
             }
@@ -20,12 +39,38 @@ var sanitize = (x) => {
             console.log("Matched garbage",x[i])
         }
     }
+    // filtering bad domains
+    const regex_url = /[\w]{2,10}:[\\\/]+[\w\d\*\_\-\.\:]+([\\\/]*)([\\\/\w\_\-\d]*)(\?([^&'},)"])([^=]+=[^&'},)"]+)?)?/gmi;
+    var end_list = [];
+    for (var i = 0; i<filtered_list.length; i++){
+        if (!filtered_list[i].match(regex_url)){
+            end_list.push(filtered_list[i]);
+            continue;
+        }
+        // parse URL
+        try{
+            var url = new URL(filtered_list[i]);
+        } catch {
+            // invalid url
+            end_list.push(filtered_list[i]);
+            continue;
+        }
+
+        var hostname = url.hostname.split(".").slice(-2).join(".");
+        //console.log(hostname);
+        if (!bad_domains.includes(hostname)){
+            end_list.push(filtered_list[i]);
+        } else {
+            console.log("Matched bad domain",filtered_list[i])
+        }
+    }
+
     return end_list;
 }
 
 var find_links = function(stuff) {
 
-    const regex_links = /https?:[\\\/]*[\w\_\.\:\d\-]+([\\\/]*)([\\\/\w\_\-\d]*)(\?([^&'},)"])([^=]+=[^&'},)"]+)?)?/gmi;
+    const regex_links = /[\w]{2,10}:[\\\/]+[\w\d\*\_\-\.\:]+(([\\\/]*)([\\\/\w\_\-\d]*)(\?([^&'},)"])([^=]+=[^&'},)"]+)?)?)?/gmi;
     console.log("Regex link");
     var x = Array.from(new Set(stuff.match(regex_links)));
     return sanitize(x);
@@ -34,10 +79,10 @@ var find_links = function(stuff) {
 
 var find_paths_v2 = function(stuff) {
 
-    const relative = /(?:"|')([\w]{2,10}:[\\\/]+[\w\d\_\-\.\:]+)?((([\\\/]+)([\.\w\d\_\-\:]+)((?![\.\w\d\_\-\:]+)[\\\/]+)?)+|(([\.\w\d\_\-\:]+)([\\\/]+)((?![\\\/]+)[\.\w\d\_\-\:]+)?)+)?(\?([\w\d\-\_{}()\[\]]+(\=([^&,\s]+(\&)?)?)?){0,})?(?:"|')/gmi;
+    const relative = /(?:"|')([\w]{2,10}:[\\\/]+[\w\d\*\_\-\.\:]+)?((([\\\/]+)([\.\w\d\_\-\:]+)((?![\.\w\d\_\-\:]+)[\\\/]+)?)+|(([\.\w\d\_\-\:]+)([\\\/]+)((?![\\\/]+)[\.\w\d\_\-\:]+)?)+)?(\?([\w\d\-\_\;{}()\[\]]+(\=([^&,\s]+(\&)?)?)?){0,})?(?:"|')/gmi;
     console.log("Regex path or link v2");
     var x = Array.from(new Set(stuff.match(relative)));
-    return sanitize(x);
+    return sanitize(x).concat(find_links(stuff));
 
 }
 var find_paths_v1 = function(stuff) {
@@ -45,7 +90,7 @@ var find_paths_v1 = function(stuff) {
     const relative = /(?:"|')(https?:[\\\/]+)?(([\\\/\?]+)([\.\w\d\_\-\:]+([\\\/]+)?)+)|(([\.\w\d\_\-\:]+([\\\/]+))+)[^\?"'\s]+(\?([^=,]+([=,\s]+)?)?)?(?:"|')/gmi;
     console.log("Regex path or link v1");
     var x = Array.from(new Set(stuff.match(relative)));
-    return sanitize(x);
+    return sanitize(x).concat(find_links(stuff));
 
 }
 
@@ -62,8 +107,6 @@ var find_jslinkfinder = function(stuff) {
 chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
     console.log("Command "+request.command+" Recieved");
 
-    var stuff = document.documentElement.innerHTML;
-
     function printScriptTextContent(script) {
         var xhr = new XMLHttpRequest();
         var stuf = "";
@@ -78,23 +121,58 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
     }
 
     var scripts = document.querySelectorAll("script[src]");
-
-    for (var i = 0; i < scripts.length; i++){
-        stuff += printScriptTextContent(scripts[i]);
-    }
     var c = [];
-    if(request.command === "find_links"){
-        c = find_links(stuff);
+    var html_page = document.documentElement.innerHTML;
+
+    const choose_regex = (stuff) => {
+        if(request.command === "find_links"){
+            return find_links(stuff);
+        }
+        else if(request.command === "find_paths_v1"){
+            return find_paths_v1(stuff);
+        }
+        else if(request.command === "find_paths_v2"){
+            return find_paths_v2(stuff);
+        }
+        else if(request.command === "jslinkfinder"){
+            return find_jslinkfinder(stuff);
+        }
     }
-    else if(request.command === "find_paths_v1"){
-        c = find_paths_v1(stuff);
+
+    // changing icon to "loading"
+    chrome.runtime.sendMessage({
+        action: 'updateIcon',
+        value: 3
+    });
+
+    // adding links from html source code
+    c = c.concat(choose_regex(html_page));
+
+    // adding links from js sources
+    for (var i = 0; i < scripts.length; i++){
+
+        c = c.concat(choose_regex(printScriptTextContent(scripts[i])));
+        // changing icon back to green then white
+
     }
-    else if(request.command === "find_paths_v2"){
-        c = find_paths_v2(stuff);
-    }
-    else if(request.command === "jslinkfinder"){
-        c = find_jslinkfinder(stuff);
-    }
+    chrome.runtime.sendMessage({
+        action: 'updateIcon',
+        value: 1
+    });
+
+    setTimeout(function () {
+        chrome.runtime.sendMessage({
+            action: 'updateIcon',
+            value: 0
+    })} , 3000)
+
+    // filter empty values
+    var temp = [];
+    for (let i of c)
+        (i && i.length > 0) && temp.push(i);
+    // removing duplicates
+    c = Array.from(new Set(temp));
+
     console.log("Mode ",request);
     var text_window = "";
     if (request.mode == "window"){
@@ -102,6 +180,7 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
         var win = window.open("", "Links results", "toolbar=no,location=no,directories=no,status=no,menubar=no,scrollbars=yes,resizable=yes,width=500,height=700,top="+(40)+",left="+(40));
 
         for (var i =0; i<c.length; i++){
+            console.log(c[i]);
             text_window+=c[i]+"<br>";
         }
         win.document.body.innerHTML = text_window;

@@ -48,9 +48,17 @@ document.addEventListener("click", async (e) => {
 			});
 			break;
 
-		case "find_paths":
+		case "find_paths_v1":
 			chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
-				chrome.tabs.sendMessage(tabs[0].id, {command: "find_paths", mode: get_radio()}, function(response) {
+				chrome.tabs.sendMessage(tabs[0].id, {command: "find_paths_v1", mode: get_radio()}, function(response) {
+					console.log("Call to function");
+				});
+			});
+			break;
+
+        case "find_paths_v2":
+			chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+				chrome.tabs.sendMessage(tabs[0].id, {command: "find_paths_v2", mode: get_radio()}, function(response) {
 					console.log("Call to function");
 				});
 			});

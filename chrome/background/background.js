@@ -21,6 +21,13 @@ chrome.runtime.onMessage.addListener(function (msg, sender, sendResponse) {
                     "19":"/images/red.png"
                 }
             });
+        } else if (msg.value == 3) {
+
+            chrome.browserAction.setIcon({
+                path: {
+                    "19":"/images/orange.png"
+                }
+            });
         }
     }
 });
