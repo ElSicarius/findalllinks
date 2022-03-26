@@ -5,7 +5,8 @@ A tool to extract all the urls and paths found in the content of a page (js/html
 This tool is still in dev. The main regex used for finding paths might also create a lot of noise. I'm still working on it ! but i'm sure, if you look closely to the results, you'll see the golden gem.
 
 # Install
-chrome store:  https://chrome.google.com/webstore/detail/findalllinks/ecakpoecmehpjhpgfndlkhahedcembki
+Chrome store:  https://chrome.google.com/webstore/detail/findalllinks/ecakpoecmehpjhpgfndlkhahedcembki
+Firefox AMO:  https://addons.mozilla.org/firefox/addon/findalllinks/
 
 from the sources:
 
