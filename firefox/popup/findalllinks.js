@@ -40,25 +40,25 @@ window.addEventListener('load', function() {
 document.addEventListener("click", async (e) => {
 
 	switch (e.target.id) {
-		case "find_links":
+		case "find_links_v2":
 			chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
-				chrome.tabs.sendMessage(tabs[0].id, {command: "find_links", mode: get_radio()}, function(response) {
+				chrome.tabs.sendMessage(tabs[0].id, {command: "find_links_v2", mode: get_radio()}, function(response) {
 					console.log("Call to function");
 				});
 			});
 			break;
 
-		case "find_paths_v1":
+		case "find_paths_v3":
 			chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
-				chrome.tabs.sendMessage(tabs[0].id, {command: "find_paths_v1", mode: get_radio()}, function(response) {
+				chrome.tabs.sendMessage(tabs[0].id, {command: "find_paths_v3", mode: get_radio()}, function(response) {
 					console.log("Call to function");
 				});
 			});
 			break;
 
-        case "find_paths_v2":
+        case "find_paths_v3_no_quotes":
 			chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
-				chrome.tabs.sendMessage(tabs[0].id, {command: "find_paths_v2", mode: get_radio()}, function(response) {
+				chrome.tabs.sendMessage(tabs[0].id, {command: "find_paths_v3_no_quotes", mode: get_radio()}, function(response) {
 					console.log("Call to function");
 				});
 			});

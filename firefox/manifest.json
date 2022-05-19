@@ -20,6 +20,6 @@
    "manifest_version": 2,
    "name": "FindAllLinks",
    "permissions": [ "storage","activeTab","clipboardWrite" ],
-   "version": "0.3",
+   "version": "1.0",
    "author": "Sicarius"
 }
