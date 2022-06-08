@@ -85,18 +85,28 @@ var find_links_v2 = function(stuff) {
 
 var find_paths_v3 = function(stuff) {
 
-    const relative = /(?:"|')([\w]{2,10}:([\\\/]|[%]+(25)?2[fF])+[\w\d\*\_\-\.\:]+)?(((([\\\/]|[%]+(25)?2[fF])+)([\.\w\d\_\-\:]+)((?![\.\w\d\_\-\:]+)(([\\\/]|[%]+(25)?2[fF])+))?)+((([\.\w\d\_\-\:]+)(([\\\/]|[%]+(25)?2[fF])+)((?!([\\\/]|[%]+(25)?2[fF])+)[\.\w\d\_\-\:]+)?)+))?((\?|[%]+(25)?3[Ff])([\w\d\-\_\;{}\(\)\[\]]+((\=|[%]+(25)?3[dD])([^&,\s]+(\&)?)?)?){0,})?(?:"|')/gmi;
+    const relative = /(?:"|')(?:[\w]{2,10}:(?:[\\\/]|[%]+(?:25)?2[fF])+[\w\d\*\_\-\.\:]+)?(?:(?:[\.\w\d\_\-\:]+)?(?:(?:(?:[\\\/]|[%]+(?:25)?2[fF])+)(?!(?:(?:<(?:[\w\s]+[\\\/]+)|(?:[\\\/]+[\w\s]))>))(?:[\.\w\+\d\_\-\:]+)))+(?:(?:(?:[\.\w\+\d\_\-\:]+)?(?:\?|[%]+(?:25)?3[Ff]))(?:[\w\d\-\_\;{}\(\)\[\]]+(?:(?:\=|[%]+(?:25)?3[dD])(?:[^&,\s]+(?:\&)?)?)?){1,})?(?:"|')/gmi;
     console.log("Regex path or link v3");
-    var x = Array.from(new Set(stuff.match(relative)));
-    return sanitize(x).concat(find_links(stuff));
+    var matches = new Array();
+    for (match of stuff.matchAll(relative)){
+        matches.push(match[0]);
+    }
+    
+    var x = Array.from(new Set(matches));
+    return sanitize(x)
 
 }
 var find_paths_v3_no_quotes = function(stuff) {
 
-    const relative = /([\w]{2,10}:([\\\/]|[%]+(25)?2[fF])+[\w\d\*\_\-\.\:]+)?(((([\\\/]|[%]+(25)?2[fF])+)([\.\w\d\_\-\:]+)((?![\.\w\d\_\-\:]+)(([\\\/]|[%]+(25)?2[fF])+))?)+((([\.\w\d\_\-\:]+)(([\\\/]|[%]+(25)?2[fF])+)((?!([\\\/]|[%]+(25)?2[fF])+)[\.\w\d\_\-\:]+)?)+))?((\?|[%]+(25)?3[Ff])([\w\d\-\_\;{}\(\)\[\]]+((\=|[%]+(25)?3[dD])([^&,\s]+(\&)?)?)?){0,})?/gmi;
+    const relative = /(?:[\w]{2,10}:(?:[\\\/]|[%]+(?:25)?2[fF])+[\w\d\*\_\-\.\:]+)?(?:(?:[\.\w\d\_\-\:]+)?(?:(?:(?:[\\\/]|[%]+(?:25)?2[fF])+)(?!(?:(?:<(?:[\w\s]+[\\\/]+)|(?:[\\\/]+[\w\s]))>))(?:[\.\w\+\d\_\-\:]+)))+(?:(?:(?:[\.\w\+\d\_\-\:]+)?(?:\?|[%]+(?:25)?3[Ff]))(?:[\w\d\-\_\;{}\(\)\[\]]+(?:(?:\=|[%]+(?:25)?3[dD])(?:[^&,\s]+(?:\&)?)?)?){1,})?/gmi;
     console.log("Regex path or link v3 no quotes");
-    var x = Array.from(new Set(stuff.match(relative)));
-    return sanitize(x).concat(find_links(stuff));
+    var matches = new Array();
+    for (match of stuff.matchAll(relative)){
+        matches.push(match[0]);
+    }
+    
+    var x = Array.from(new Set(matches));
+    return sanitize(x)
 
 }
 
