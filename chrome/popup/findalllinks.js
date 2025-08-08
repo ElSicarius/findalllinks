@@ -29,8 +29,11 @@ const get_radio = () => {
 }
 
 const inject_script = (tabId) => {
-    chrome.tabs.executeScript(tabId,{ file: "/content_scripts/content.js", runAt: 'document_end' });
-}
+  chrome.scripting.executeScript({
+    target: { tabId },
+    files: ["/content_scripts/content.js"]
+  });
+};
 
 window.addEventListener('load', function() {
 

@@ -1,25 +1,38 @@
 {
-   "browser_action": {
-      "default_popup": "popup/index.html",
-      "default_icon": {
-        "16": "images/icon_16.png",
-        "32": "images/icon_32.png",
-        "48": "images/icon_48.png",
-        "128": "images/icon_128.png"
-      }
-    },
-   "icons": {
-      "128": "images/icon_128.png",
+  "manifest_version": 3,
+  "name": "FindAllLinks",
+  "version": "1.0",
+  "description": "Find paths in the html/js",
+  "author": "Sicarius",
+
+  "action": {
+    "default_popup": "popup/index.html",
+    "default_icon": {
       "16": "images/icon_16.png",
-      "48": "images/icon_48.png"
-   },
-   "description": "Find paths in the html/js",
-   "background": {
-      "scripts": ["background/background.js"]
-    },
-   "manifest_version": 2,
-   "name": "FindAllLinks",
-   "permissions": [ "storage","activeTab","clipboardWrite" ],
-   "version": "1.0",
-   "author": "Sicarius"
+      "32": "images/icon_32.png",
+      "48": "images/icon_48.png",
+      "128": "images/icon_128.png"
+    }
+  },
+
+  "icons": {
+    "16": "images/icon_16.png",
+    "48": "images/icon_48.png",
+    "128": "images/icon_128.png"
+  },
+
+  "background": {
+    "service_worker": "background/background.js"
+  },
+
+  "permissions": [
+    "storage",
+    "activeTab",
+    "scripting",
+    "clipboardWrite"
+  ],
+
+  "host_permissions": [
+    "<all_urls>"
+  ]
 }
